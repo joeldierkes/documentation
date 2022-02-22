@@ -41,6 +41,15 @@ jobs:
           docker login https://docker.pkg.github.com -u ${{ github.actor }} -p ${{ secrets.GITHUB_TOKEN }}
           ./rucio-generate-doc.py
           docker logout https://docker.pkg.github.com
+      - name: Cache yarn packages
+        uses: actions/cache@v2
+        env:
+          cache-name: cache-yarn-modules
+        with:
+          key: ${{ runner.os }}-build-${{ env.cache-name }}
+          path: |
+            website/yarn.lock
+            website/node_modules
       - name: Install dependencies and static website
         run: |
           cd website
