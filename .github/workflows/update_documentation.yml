@@ -30,9 +30,22 @@ jobs:
       - name: Check file names
         run: |
           ./check-file-names.sh
+  check_spelling:
+    name: Check spelling
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+      - name: Check spelling
+        run: |
+          # Usig the https://github.com/client9/misspell project for spelling
+          # errors.
+          curl -L -o ./install-misspell.sh https://git.io/misspell
+          sh ./install-misspell.sh -b .
+          ./misspell -error docs
   build:
     name: Build
-    needs: [check_markdown_syntax, check_file_names]
+    needs: [check_markdown_syntax, check_file_names, check_spelling]
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2

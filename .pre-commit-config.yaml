@@ -17,3 +17,7 @@ repos:
     name: Check the file names for inconsistencies.
     entry: ./check-file-names.sh
     language: system
+  - id: check-spelling
+    name: Check the spelling.
+    entry: misspell -error docs
+    language: system
