@@ -142,6 +142,8 @@ merged, e.g.:
 <component>: <change_message> Fix #<issue number>
 ```
 
+Please make sure to add [type annotations](type_annotations) to your code.
+
 ### 5. Push changes and create a Pull Request
 
 Push the commit to your forked repository and create the pull request.
