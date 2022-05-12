@@ -1,6 +1,6 @@
 ---
 id: index
-title: "Welcome to Rucio's documentation"
+title: "Welcome to Rucio's Documentation"
 sidebar_label: "Welcome"
 slug: /
 ---
