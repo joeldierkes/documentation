@@ -990,7 +990,6 @@ paths:
       tags:
       - Config
   /credentials/signurl:
-    options: {}
     get:
       description: Sign a url for a limited lifetime for a particular srevice.
       parameters:
@@ -1065,6 +1064,7 @@ paths:
       summary: Sign URL
       tags:
       - Credentials
+    options: {}
   /dids/{scope}/:
     get:
       description: Return all data identifiers in the given scope.
