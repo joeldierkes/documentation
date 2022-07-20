@@ -30,7 +30,6 @@ module.exports={
       "@docusaurus/preset-classic",
       {
         "docs": {
-          "showLastUpdateAuthor": true,
           "showLastUpdateTime": true,
           "path": "../docs",
           "routeBasePath": "/",
