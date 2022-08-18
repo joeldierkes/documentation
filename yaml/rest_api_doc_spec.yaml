@@ -796,6 +796,26 @@ paths:
       summary: List account parameters
       tags:
       - Account
+    delete:
+      description: Delete an account.
+      parameters:
+      - description: The account identifier.
+        in: path
+        name: account
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        '201':
+          description: OK
+        '401':
+          description: Invalid Auth Token
+        '404':
+          description: Account not found
+      summary: Delete
+      tags:
+      - Account
     post:
       description: Create an account.
       parameters:
@@ -841,26 +861,6 @@ paths:
         '400':
           description: Unknown status
       summary: Create
-      tags:
-      - Account
-    delete:
-      description: Delete an account.
-      parameters:
-      - description: The account identifier.
-        in: path
-        name: account
-        required: true
-        schema:
-          type: string
-        style: simple
-      responses:
-        '201':
-          description: OK
-        '401':
-          description: Invalid Auth Token
-        '404':
-          description: Account not found
-      summary: Delete
       tags:
       - Account
     put:
@@ -1109,7 +1109,6 @@ paths:
       tags:
       - Config
   /credentials/signurl:
-    options: {}
     get:
       description: Sign a url for a limited lifetime for a particular srevice.
       parameters:
@@ -1184,6 +1183,7 @@ paths:
       summary: Sign URL
       tags:
       - Credentials
+    options: {}
   /dids/{scope}/:
     get:
       description: Return all data identifiers in the given scope.
@@ -5547,6 +5547,42 @@ paths:
       summary: Get Rse Distances
       tags:
       - Rucio Storage Elements
+    delete:
+      description: Delete distance information between source RSE and destination
+        RSE.
+      parameters:
+      - description: The name of the source Rucio Storage Element.
+        in: path
+        name: source
+        required: true
+        schema:
+          type: string
+        style: simple
+      - description: The name of the destination Rucio Storage Element.
+        in: path
+        name: destination
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                enum:
+                - Deleted
+                type: string
+          description: OK
+        '401':
+          description: Invalid Auth Token
+        '404':
+          description: Rse not found
+        '406':
+          description: Not acceptable
+      summary: Delete Rse Distance
+      tags:
+      - Rucio Storage Elements
     post:
       description: Post a rse distance.
       parameters:
@@ -5610,42 +5646,6 @@ paths:
         '406':
           description: Not acceptable
       summary: Create Rse Distance
-      tags:
-      - Rucio Storage Elements
-    delete:
-      description: Delete distance information between source RSE and destination
-        RSE.
-      parameters:
-      - description: The name of the source Rucio Storage Element.
-        in: path
-        name: source
-        required: true
-        schema:
-          type: string
-        style: simple
-      - description: The name of the destination Rucio Storage Element.
-        in: path
-        name: destination
-        required: true
-        schema:
-          type: string
-        style: simple
-      responses:
-        '200':
-          content:
-            application/json:
-              schema:
-                enum:
-                - Deleted
-                type: string
-          description: OK
-        '401':
-          description: Invalid Auth Token
-        '404':
-          description: Rse not found
-        '406':
-          description: Not acceptable
-      summary: Delete Rse Distance
       tags:
       - Rucio Storage Elements
     put:
@@ -6562,6 +6562,26 @@ paths:
       summary: Get RSE
       tags:
       - Rucio Storage Elements
+    delete:
+      description: Disable a specific RSE.
+      parameters:
+      - description: The name of the Rucio Storage Element name.
+        in: path
+        name: rse
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        '200':
+          description: OK
+        '401':
+          description: Invalid Auth Token
+        '404':
+          description: RSE not found
+      summary: Disable RSE
+      tags:
+      - Rucio Storage Elements
     post:
       description: Creates a RSE with all the metadata.
       parameters:
@@ -6641,26 +6661,6 @@ paths:
         '409':
           description: RSE already exists.
       summary: Create RSE
-      tags:
-      - Rucio Storage Elements
-    delete:
-      description: Disable a specific RSE.
-      parameters:
-      - description: The name of the Rucio Storage Element name.
-        in: path
-        name: rse
-        required: true
-        schema:
-          type: string
-        style: simple
-      responses:
-        '200':
-          description: OK
-        '401':
-          description: Invalid Auth Token
-        '404':
-          description: RSE not found
-      summary: Disable RSE
       tags:
       - Rucio Storage Elements
     put:
