@@ -755,26 +755,6 @@ paths:
       tags:
       - Account
   /accounts/{account}:
-    delete:
-      description: Delete an account.
-      parameters:
-      - description: The account identifier.
-        in: path
-        name: account
-        required: true
-        schema:
-          type: string
-        style: simple
-      responses:
-        '201':
-          description: OK
-        '401':
-          description: Invalid Auth Token
-        '404':
-          description: Account not found
-      summary: Delete
-      tags:
-      - Account
     put:
       description: Update a parameter for an account.
       parameters:
@@ -802,6 +782,26 @@ paths:
         '400':
           description: Unknown status
       summary: Update
+      tags:
+      - Account
+    delete:
+      description: Delete an account.
+      parameters:
+      - description: The account identifier.
+        in: path
+        name: account
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        '201':
+          description: OK
+        '401':
+          description: Invalid Auth Token
+        '404':
+          description: Account not found
+      summary: Delete
       tags:
       - Account
     get:
@@ -1115,6 +1115,43 @@ paths:
       tags:
       - Config
   /credentials/signurl:
+    options:
+      description: Allow cross-site scripting. Explicit for Authentication.
+      responses:
+        '200':
+          description: OK
+          headers:
+            Access-Control-Allow-Credentials:
+              description: If credentials are allowed.
+              schema:
+                enum:
+                - 'true'
+                type: string
+            Access-Control-Allow-Headers:
+              description: The http access controll request headers.
+              schema:
+                type: string
+            Access-Control-Allow-Methods:
+              description: The allowed methods.
+              schema:
+                enum:
+                - '*'
+                type: string
+            Access-Control-Allow-Origin:
+              description: The http origin.
+              schema:
+                type: string
+            Access-Control-Expose-Headers:
+              description: The exposed access controll header.
+              schema:
+                enum:
+                - X-Rucio-Auth-Token
+                type: string
+        '404':
+          description: Not found
+      summary: Cross-Site Scripting
+      tags:
+      - Credentials
     get:
       description: Sign a url for a limited lifetime for a particular srevice.
       parameters:
@@ -1187,43 +1224,6 @@ paths:
         '406':
           description: Not acceptable.
       summary: Sign URL
-      tags:
-      - Credentials
-    options:
-      description: Allow cross-site scripting. Explicit for Authentication.
-      responses:
-        '200':
-          description: OK
-          headers:
-            Access-Control-Allow-Credentials:
-              description: If credentials are allowed.
-              schema:
-                enum:
-                - 'true'
-                type: string
-            Access-Control-Allow-Headers:
-              description: The http access controll request headers.
-              schema:
-                type: string
-            Access-Control-Allow-Methods:
-              description: The allowed methods.
-              schema:
-                enum:
-                - '*'
-                type: string
-            Access-Control-Allow-Origin:
-              description: The http origin.
-              schema:
-                type: string
-            Access-Control-Expose-Headers:
-              description: The exposed access controll header.
-              schema:
-                enum:
-                - X-Rucio-Auth-Token
-                type: string
-        '404':
-          description: Not found
-      summary: Cross-Site Scripting
       tags:
       - Credentials
   /dids/{scope}/:
@@ -5582,42 +5582,6 @@ paths:
       tags:
       - Rucio Storage Elements
   /rses/{source}/distances/{destination}:
-    delete:
-      description: Delete distance information between source RSE and destination
-        RSE.
-      parameters:
-      - description: The name of the source Rucio Storage Element.
-        in: path
-        name: source
-        required: true
-        schema:
-          type: string
-        style: simple
-      - description: The name of the destination Rucio Storage Element.
-        in: path
-        name: destination
-        required: true
-        schema:
-          type: string
-        style: simple
-      responses:
-        '200':
-          content:
-            application/json:
-              schema:
-                enum:
-                - Deleted
-                type: string
-          description: OK
-        '401':
-          description: Invalid Auth Token
-        '404':
-          description: Rse not found
-        '406':
-          description: Not acceptable
-      summary: Delete Rse Distance
-      tags:
-      - Rucio Storage Elements
     put:
       description: Update rse distance information.
       parameters:
@@ -5681,6 +5645,42 @@ paths:
         '406':
           description: Not acceptable
       summary: Update Rse Distance
+      tags:
+      - Rucio Storage Elements
+    delete:
+      description: Delete distance information between source RSE and destination
+        RSE.
+      parameters:
+      - description: The name of the source Rucio Storage Element.
+        in: path
+        name: source
+        required: true
+        schema:
+          type: string
+        style: simple
+      - description: The name of the destination Rucio Storage Element.
+        in: path
+        name: destination
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                enum:
+                - Deleted
+                type: string
+          description: OK
+        '401':
+          description: Invalid Auth Token
+        '404':
+          description: Rse not found
+        '406':
+          description: Not acceptable
+      summary: Delete Rse Distance
       tags:
       - Rucio Storage Elements
     get:
@@ -5802,47 +5802,6 @@ paths:
       tags:
       - Rucio Storage Elements
   /rses/{rse}/protocols/{scheme}/{hostname}/{port}:
-    delete:
-      description: Delete all protocol attibutes.
-      parameters:
-      - description: The name of the Rucio Storage Element name.
-        in: path
-        name: rse
-        required: true
-        schema:
-          type: string
-        style: simple
-      - description: The protocol identifier.
-        in: path
-        name: scheme
-        required: true
-        schema:
-          type: string
-        style: simple
-      - description: The hostname of the protocol.
-        in: path
-        name: hostname
-        required: true
-        schema:
-          type: string
-        style: simple
-      - description: The port of the protocol.
-        in: path
-        name: port
-        required: true
-        schema:
-          type: integer
-        style: simple
-      responses:
-        '200':
-          description: OK
-        '401':
-          description: Invalid Auth Token
-        '404':
-          description: Rse not found or protocol not supported
-      summary: Delete Protocol Attributes
-      tags:
-      - Rucio Storage Elements
     put:
       description: Updates attributes of an existing protocol entry. Because protocol
         identifier, hostname, and port are used as unique identifier they are immutable.
@@ -6003,6 +5962,47 @@ paths:
         '406':
           description: Not acceptable
       summary: Update Protocol Attributes
+      tags:
+      - Rucio Storage Elements
+    delete:
+      description: Delete all protocol attibutes.
+      parameters:
+      - description: The name of the Rucio Storage Element name.
+        in: path
+        name: rse
+        required: true
+        schema:
+          type: string
+        style: simple
+      - description: The protocol identifier.
+        in: path
+        name: scheme
+        required: true
+        schema:
+          type: string
+        style: simple
+      - description: The hostname of the protocol.
+        in: path
+        name: hostname
+        required: true
+        schema:
+          type: string
+        style: simple
+      - description: The port of the protocol.
+        in: path
+        name: port
+        required: true
+        schema:
+          type: integer
+        style: simple
+      responses:
+        '200':
+          description: OK
+        '401':
+          description: Invalid Auth Token
+        '404':
+          description: Rse not found or protocol not supported
+      summary: Delete Protocol Attributes
       tags:
       - Rucio Storage Elements
   /rses/{rse}/protocols:
@@ -6412,39 +6412,6 @@ paths:
       tags:
       - Rucio Storage Elements
   /rses/{rse}/limits:
-    delete:
-      description: Delete an rse limit
-      parameters:
-      - description: The name of the Rucio Storage Element name.
-        in: path
-        name: rse
-        required: true
-        schema:
-          type: string
-        style: simple
-      requestBody:
-        content:
-          application/json:
-            schema:
-              properties:
-                name:
-                  description: The name of the limit.
-                  type: string
-              required:
-              - name
-              type: object
-      responses:
-        '200':
-          description: OK
-        '401':
-          description: Invalid Auth Token
-        '404':
-          description: Rse not found
-        '406':
-          description: Not acceptable
-      summary: Delete Rse Limit
-      tags:
-      - Rucio Storage Elements
     put:
       description: Update an rse limit.
       parameters:
@@ -6477,6 +6444,39 @@ paths:
         '406':
           description: Not acceptable
       summary: Update Rse Limit
+      tags:
+      - Rucio Storage Elements
+    delete:
+      description: Delete an rse limit
+      parameters:
+      - description: The name of the Rucio Storage Element name.
+        in: path
+        name: rse
+        required: true
+        schema:
+          type: string
+        style: simple
+      requestBody:
+        content:
+          application/json:
+            schema:
+              properties:
+                name:
+                  description: The name of the limit.
+                  type: string
+              required:
+              - name
+              type: object
+      responses:
+        '200':
+          description: OK
+        '401':
+          description: Invalid Auth Token
+        '404':
+          description: Rse not found
+        '406':
+          description: Not acceptable
+      summary: Delete Rse Limit
       tags:
       - Rucio Storage Elements
     get:
@@ -6576,26 +6576,6 @@ paths:
       tags:
       - Rucio Storage Elements
   /rses/{rse}:
-    delete:
-      description: Disable a specific RSE.
-      parameters:
-      - description: The name of the Rucio Storage Element name.
-        in: path
-        name: rse
-        required: true
-        schema:
-          type: string
-        style: simple
-      responses:
-        '200':
-          description: OK
-        '401':
-          description: Invalid Auth Token
-        '404':
-          description: RSE not found
-      summary: Disable RSE
-      tags:
-      - Rucio Storage Elements
     put:
       description: Update RSE properties.
       parameters:
@@ -6670,6 +6650,26 @@ paths:
         '404':
           description: RSE not found
       summary: Update RSE
+      tags:
+      - Rucio Storage Elements
+    delete:
+      description: Disable a specific RSE.
+      parameters:
+      - description: The name of the Rucio Storage Element name.
+        in: path
+        name: rse
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        '200':
+          description: OK
+        '401':
+          description: Invalid Auth Token
+        '404':
+          description: RSE not found
+      summary: Disable RSE
       tags:
       - Rucio Storage Elements
     get:
@@ -6913,25 +6913,6 @@ paths:
       tags:
       - Rucio Storage Elements
   /rules/{rule_id}:
-    delete:
-      parameters:
-      - description: The id of the replication rule.
-        in: path
-        name: rule_id
-        required: true
-        schema:
-          type: string
-        style: simple
-      responses:
-        '200':
-          description: OK
-        '401':
-          description: Invalid Auth Token
-        '404':
-          description: No rule found for the given id
-      summary: Delete a replication rule
-      tags:
-      - Rule
     put:
       parameters:
       - description: The id of the replication rule.
@@ -7006,6 +6987,25 @@ paths:
         '404':
           description: No rule found for the given id
       summary: Update the replication rules parameters
+      tags:
+      - Rule
+    delete:
+      parameters:
+      - description: The id of the replication rule.
+        in: path
+        name: rule_id
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        '200':
+          description: OK
+        '401':
+          description: Invalid Auth Token
+        '404':
+          description: No rule found for the given id
+      summary: Delete a replication rule
       tags:
       - Rule
     get:
